@@ -5,6 +5,7 @@
   "scripts": {
     "start": "DEBUG=notes:* node ./bin/www",
     "start-fs": "DEBUG=notes:* NOTES_MODEL=fs node --experimental-modules ./bin/www.mjs",
+    "start-level": "DEBUG=notes:* NOTES_MODEL=level node --experimental-modules ./bin/www.mjs",
     "server1": "NOTES_MODEL=fs PORT=3001 node --experimental-modules ./bin/www.mjs",
     "server2": "NOTES_MODEL=fs PORT=3002 node --experimental-modules ./bin/www.mjs"
   },
@@ -16,6 +17,7 @@
     "fs-extra": "^10.1.0",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
+    "level": "^8.0.0",
     "morgan": "~1.9.1",
     "rotating-file-stream": "^3.0.4"
   }
