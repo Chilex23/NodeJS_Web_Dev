@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    {{> header }}
+    {{{body}}}
+
+    <!-- jQuery first, then Bootstrap JS -->
+    <script src="/assets/jquery.min.js"></script>
+    <script src="/assets/bootstrap.bundle.min.js"></script>
+    <script src="/assets/vendor/feathericons/feather.js"></script>
+    <!-- feather script -->
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>

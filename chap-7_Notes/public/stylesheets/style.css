@@ -1,0 +1,14 @@
+body {
+  padding: .5rem 2rem;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+header {
+  background: #eeeeee;
+  padding: 5px;
+  margin: 1rem 0;
+}
+
+a {
+  color: #00B7FF;
+}
