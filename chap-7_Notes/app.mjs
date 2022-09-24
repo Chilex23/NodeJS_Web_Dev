@@ -63,7 +63,7 @@ app.use(
 );
 
 process.on("uncaughtException", function (err) {
-  error("I've crashed!!! - " + (err.stack || err));
+  error("I've crashed !!! - " + (err.stack || err));
 });
 
 // if (app.get("env") === "development") {
