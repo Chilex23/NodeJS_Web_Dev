@@ -1,0 +1,19 @@
+{
+  "name": "notes",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "DEBUG=notes:* node ./bin/www",
+    "server1": "DEBUG=notes:* PORT=3001 node ./bin/www",
+    "server2": "DEBUG=notes:* PORT=3002 node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "feather-icons": "^4.29.0",
+    "hbs": "~4.0.4",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
+  }
+}
