@@ -1,16 +1,22 @@
-const createError = require("http-errors");
-const express = require("express");
-const hbs = require("hbs");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const fs = require("fs-extra");
-const rfs = require("rotating-file-stream");
-const error = require("debug")("notes:error");
+import rfs from "rotating-file-stream";
+import createError from "http-errors";
+import fs from "fs-extra";
+import url from "url";
+import express from "express";
+import hbs from "hbs";
+import path from "path";
+import util from "util";
+import logger from "morgan";
+import cookieParser from "cookie-parser";
+import DBG from "debug";
+const debug = DBG('notes:debug');
+const error = DBG("notes:error");
+import { router as indexRouter } from "./routes/index.mjs";
+// const users = require('./routes/users');
+import { router as notesRouter } from "./routes/notes.mjs";
 
-const indexRouter = require("./routes/index");
-const notesRouter = require("./routes/notes");
-//const usersRouter = require('./routes/users');
+// Workaround for lack of __dirname in ES6 modules
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 const app = express();
 
@@ -29,18 +35,6 @@ app.use(
   "/assets/vendor/feathericons",
   express.static(path.join(__dirname, "node_modules", "feather-icons", "dist"))
 );
-// app.use(
-//   "/assets/bootstrap.css",
-//   express.static(path.join(__dirname, "public", "assets", "bootstrap"))
-// );
-// app.use(
-//   "/assets/bootstrap.bundle.min",
-//   express.static(path.join(__dirname, "public", "assets", "bootstrap.bundle.min"))
-// );
-// app.use(
-//   "/assets/jquery.min.js",
-//   express.static(path.join(__dirname, "public", "assets", "jquery.min.js"))
-// );
 
 app.use("/", indexRouter);
 app.use("/notes", notesRouter);
@@ -101,4 +95,4 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-module.exports = app;
+export default app;
