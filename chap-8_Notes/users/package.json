@@ -1,0 +1,19 @@
+{
+  "name": "usersmicroservice",
+  "version": "1.0.0",
+  "description": "user authentication microservice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^2.6.9",
+    "js-yaml": "^3.14.1",
+    "restify": "^6.4.0",
+    "restify-client": "^1.0.5",
+    "sequelize": "^4.44.4",
+    "sqlite3": "^5.1.1"
+  }
+}
