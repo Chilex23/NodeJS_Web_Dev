@@ -21,7 +21,7 @@ router.post("/save", async (req, res, next) => {
   } else {
     note = await notes.update(req.body.notekey, req.body.title, req.body.body);
   }
-  res.redirect("view?key=" + req.body.notekey);
+  res.redirect("view?key=" + note.key);
 });
 
 // Read Note (read)
