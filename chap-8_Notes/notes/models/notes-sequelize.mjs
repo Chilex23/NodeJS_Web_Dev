@@ -39,7 +39,7 @@ export async function create(key, title, body) {
 
 export async function update(key, title, body) {
   const SQNote = await connectDB();
-  const note = await SQNote.find({ where: { notekey: key } });
+  const note = await SQNote.find({ where: { notekey: String(key).trim() } });
   if (!note) {
     throw new Error(`No note found for ${key}`);
   } else {
@@ -50,7 +50,7 @@ export async function update(key, title, body) {
 
 export async function read(key) {
   const SQNote = await connectDB();
-  const note = await SQNote.find({ where: { notekey: key } });
+  const note = await SQNote.find({ where: { notekey: String(key).trim() } });
   if (!note) {
     throw new Error(`No note found for ${key}`);
   } else {
@@ -60,7 +60,7 @@ export async function read(key) {
 
 export async function destroy(key) {
   const SQNote = await connectDB();
-  const note = await SQNote.find({ where: { notekey: key } });
+  const note = await SQNote.find({ where: { notekey: String(key).trim() } });
   return note.destroy();
 }
 

@@ -29,7 +29,6 @@ async function connectDB() {
   // The Portable Contacts "id" field maps to the "username" field
   //schema.here;
   if (!SQUser)
-    console.log('schema')
     SQUser = sequlz.define("User", {
       username: { type: Sequelize.STRING, unique: true },
       password: Sequelize.STRING,
@@ -99,7 +98,7 @@ export async function find(username) {
 
 export async function destroy(username) {
   const SQUser = await connectDB();
-  const user = await SQUser.find({ where: { username: username } });
+  const user = await SQUser.findOne({ where: { username: username } });
   if (!user)
     throw new Error("Did not find requested " + username + " to delete");
   user.destroy();
@@ -107,7 +106,8 @@ export async function destroy(username) {
 
 export async function userPasswordCheck(username, password) {
   const SQUser = await connectDB();
-  const user = await SQUser.find({ where: { username: username } });
+  const user = await SQUser.findOne({ where: { username: username } });
+  console.log('seq', username, password)
   if (!user) {
     return { check: false, username: username, message: "Could not find user" };
   } else if (user.username === username && user.password === password) {

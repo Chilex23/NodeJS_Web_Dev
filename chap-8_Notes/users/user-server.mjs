@@ -33,17 +33,19 @@ server.post("/create-user", async (req, res, next) => {
       req.params.emails,
       req.params.photos
     );
-    console.log('user')
+    log("created " + util.inspect(result));
+    res.contentType = "json";
     res.send(result);
     next(false);
   } catch (err) {
     res.send(500, err);
+    error(`/create-user ${err.stack}`);
     next(false);
   }
 });
 
 // Update an existing user record
-server.post("/update-user:username", async (req, res, next) => {
+server.post("/update-user/:username", async (req, res, next) => {
   try {
     let result = await usersModel.update(
       req.params.username,
@@ -55,10 +57,12 @@ server.post("/update-user:username", async (req, res, next) => {
       req.params.emails,
       req.params.photos
     );
+    log("updated " + util.inspect(result));
     res.send(usersModel.sanitizedUser(result));
     next(false);
   } catch (err) {
     res.send(500, err);
+    error(`/update-user/${req.params.username} ${err.stack}`);
     next(false);
   }
 });
@@ -78,16 +82,18 @@ server.post("/find-or-create", async (req, res, next) => {
       emails: req.params.emails,
       photos: req.params.photos,
     });
+    log("find-or-created " + util.inspect(result));
     res.send(result);
     next(false);
   } catch (err) {
     res.send(500, err);
+    error(`/find-or-create ${err.stack}`);
     next(false);
   }
 });
 
 // Find the user data (does not return password)
-server.get("/find:username", async (req, res, next) => {
+server.get("/find/:username", async (req, res, next) => {
   try {
     let user = await usersModel.find(req.params.username);
     if (!user) {
@@ -98,18 +104,20 @@ server.get("/find:username", async (req, res, next) => {
     next(false);
   } catch (err) {
     res.send(500, err);
+    error(`/find/${req.params.username} ${err.stack}`);
     next(false);
   }
 });
 
 // Delete/destroy a user record
-server.del("/destroy:username", async (req, res, next) => {
+server.del("/destroy/:username", async (req, res, next) => {
   try {
     await usersModel.destroy(req.params.username);
     res.send({});
     next(false);
   } catch (err) {
     res.send(500, err);
+    error(`/destroy/${req.params.username} ${err.stack}`);
     next(false);
   }
 });
@@ -117,14 +125,17 @@ server.del("/destroy:username", async (req, res, next) => {
 // Check password
 server.post("/passwordCheck", async (req, res, next) => {
   try {
-    await usersModel.userPasswordCheck(
+    const checked = await usersModel.userPasswordCheck(
       req.params.username,
       req.params.password
     );
-    res.send(check);
+    log(`passwordCheck result=${util.inspect(checked)}`);
+    res.send(checked);
+    //res.send(check);
     next(false);
   } catch (err) {
     res.send(500, err);
+    error(`/passwordCheck ${err.stack}`);
     next(false);
   }
 });
@@ -134,10 +145,12 @@ server.get("/list", async (req, res, next) => {
   try {
     let userlist = await usersModel.listUsers();
     if (!userlist) userlist = [];
+    log(util.inspect(userlist));
     res.send(userlist);
     next(false);
   } catch (err) {
     res.send(500, err);
+    error(`/list ${err.stack}`);
     next(false);
   }
 });
@@ -169,10 +182,12 @@ function check(req, res, next) {
     if (found) next();
     else {
       res.send(401, new Error("Not authenticated"));
+      error("Failed authentication check " + util.inspect(req.authorization));
       next(false);
     }
   } else {
     res.send(500, new Error("No Authorization Key"));
+    error("NO AUTHORIZATION");
     next(false);
   }
 }

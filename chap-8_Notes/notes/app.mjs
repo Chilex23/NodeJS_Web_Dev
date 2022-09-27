@@ -11,14 +11,32 @@ import cookieParser from "cookie-parser";
 import DBG from "debug";
 const debug = DBG('notes:debug');
 const error = DBG("notes:error");
+
+import session from 'express-session';
+import sessionFileStore from 'session-file-store';
+const FileStore = sessionFileStore(session);
+
+export const sessionCookieName = 'notescookie.sid';
+
 import { router as indexRouter } from "./routes/index.mjs";
-// const users = require('./routes/users');
+import { router as usersRouter, initPassport } from './routes/users.mjs';
 import { router as notesRouter } from "./routes/notes.mjs";
 
 // Workaround for lack of __dirname in ES6 modules
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 const app = express();
+
+app.use(
+  session({
+    store: new FileStore({ path: "sessions" }),
+    secret: "keyboard mouse",
+    resave: true,
+    saveUninitialized: true,
+    name: sessionCookieName,
+  })
+);
+initPassport(app);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -38,7 +56,7 @@ app.use(
 
 app.use("/", indexRouter);
 app.use("/notes", notesRouter);
-//app.use('/users', usersRouter);
+app.use('/users', usersRouter);
 
 let logStream;
 // Log to a file if requested
@@ -66,6 +84,10 @@ process.on("uncaughtException", function (err) {
   error("I've crashed !!! - " + (err.stack || err));
 });
 
+process.on('unhandledRejection', (reason, p) => {
+  error(`Unhandled Rejection at: ${util.inspect(p)} reason: ${reason}`);
+});
+
 // if (app.get("env") === "development") {
 //   app.use(function (err, req, res, next) {
 //     // util.log(err.message);
@@ -89,7 +111,7 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  error((err.status || 500) + " " + error.message);
+  error((err.status || 500) + " " + err.message );
   // render the error page
   res.status(err.status || 500);
   res.render("error");
