@@ -8,7 +8,7 @@ import DBG from "debug";
 const debug = DBG("notes:debug-index");
 const error = DBG("notes:error-index");
 
-/* GET home page. */
+/* GET home page.  */
 router.get("/", async (req, res, next) => {
   try {
     let notelist = await getKeyTitlesList();
