@@ -1,5 +1,5 @@
 #!/usr/bin/env node
- 
+
 import rfs from "rotating-file-stream";
 import createError from "http-errors";
 import fs from "fs-extra";
@@ -11,8 +11,8 @@ import util from "util";
 import logger from "morgan";
 import http from "http";
 import cookieParser from "cookie-parser";
-
 import DBG from "debug";
+
 const debug = DBG("notes:debug");
 const error = DBG("notes:error");
 
@@ -67,15 +67,6 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-app.use(session({ 
-  store: sessionStore, 
-  secret: sessionSecret,
-  resave: true, 
-  saveUninitialized: true,
-  name: sessionCookieName
-})); 
-initPassport(app);
-
 let logStream;
 // Log to a file if requested
 if (process.env.REQUEST_LOG_FILE) {
@@ -91,6 +82,15 @@ if (process.env.REQUEST_LOG_FILE) {
     console.error(err);
   });
 }
+
+app.use(session({ 
+  store: sessionStore, 
+  secret: sessionSecret,
+  resave: true, 
+  saveUninitialized: true,
+  name: sessionCookieName
+})); 
+initPassport(app);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -116,6 +116,13 @@ app.use(
 app.use("/", indexRouter);
 app.use("/notes", notesRouter);
 app.use("/users", usersRouter);
+
+io.on('connection', function(socket){
+  debug('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
 
 indexSocketio(io);
 // notesSocketio(io);
@@ -177,7 +184,7 @@ function normalizePort(val) {
 
 /**
  * Event listener for HTTP server "error" event.
- */
+*/
 
 function onError(error) {
   if (error.syscall !== "listen") {
@@ -203,7 +210,7 @@ function onError(error) {
 
 /**
  * Event listener for HTTP server "listening" event.
- */
+*/
 
 function onListening() {
   let addr = server.address();
