@@ -27,7 +27,7 @@ const sessionStore = new FileStore({ path: "sessions" });
 
 import { socketio as indexSocketio, router as indexRouter } from './routes/index.mjs';
 import { router as usersRouter, initPassport } from "./routes/users.mjs";
-import { router as notesRouter } from "./routes/notes.mjs";
+import { socketio as notesSocketio, router as notesRouter } from "./routes/notes.mjs";
 
 // Workaround for lack of __dirname in ES6 modules
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -125,7 +125,7 @@ io.on('connection', function(socket){
 });
 
 indexSocketio(io);
-// notesSocketio(io);
+notesSocketio(io);
 
 process.on("uncaughtException", function (err) {
   error("I've crashed !!! - " + (err.stack || err));

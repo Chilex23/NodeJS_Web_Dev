@@ -16,10 +16,7 @@
 <script> 
 $(document).ready(function () { 
   console.log('socket.io starting');
-  $('.me').click(function () {
-     alert('hi');
-    });
-
+ 
   var socket = io('/home'); 
   console.log(socket);
   socket.on('connect', function() {
