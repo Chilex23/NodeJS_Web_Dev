@@ -28,7 +28,6 @@ services:
 
   db-notes:
     image: "postgres"
-    build: ../frontnet
     container_name: db-notes
     expose:
       - "5434"
