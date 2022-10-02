@@ -4,7 +4,9 @@
   "description": "user authentication microservice",
   "main": "user-server.mjs",
   "scripts": {
-    "start": "DEBUG=users:* PORT=3333 SEQUELIZE_CONNECT=sequelize-sqlite.yaml node --experimental-modules user-server.mjs"
+    "start": "DEBUG=users:* PORT=3333 SEQUELIZE_CONNECT=sequelize-sqlite.yaml node --experimental-modules user-server.mjs",
+    "docker": "node --experimental-modules ./user-server.mjs",
+    "docker-build": "docker build -t node-web-development/userauth ."
   },
   "author": "",
   "license": "ISC",

@@ -6,7 +6,9 @@
     "start": "DEBUG=notes:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize USER_SERVICE_URL=http://localhost:3333 node --experimental-modules ./app.mjs",
     "sqlite3-setup": "sqlite3 chap-7_Notes.sqlite3 --init models/schema-sqlite3.sql",
     "start-server1": "SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize USER_SERVICE_URL=http://localhost:3333 PORT=3001 node --experimental-modules ./bin/www.mjs",
-    "start-server2": "SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize USER_SERVICE_URL=http://localhost:3333 PORT=3002 node --experimental-modules ./bin/www.mjs"
+    "start-server2": "SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize USER_SERVICE_URL=http://localhost:3333 PORT=3002 node --experimental-modules ./bin/www.mjs",
+    "docker": "node --experimental-modules ./app",
+    "docker-build": "docker build -t node-web-development/notes ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

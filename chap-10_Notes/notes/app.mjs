@@ -23,11 +23,21 @@ const FileStore = sessionFileStore(session);
 
 export const sessionCookieName = "notescookie.sid";
 const sessionSecret = "keyboard mouse";
-const sessionStore = new FileStore({ path: "sessions" });
+const sessionStore = new FileStore({
+  path: process.env.NOTES_SESSIONS_DIR
+    ? process.env.NOTES_SESSIONS_DIR
+    : "sessions",
+});
 
-import { socketio as indexSocketio, router as indexRouter } from './routes/index.mjs';
+import {
+  socketio as indexSocketio,
+  router as indexRouter,
+} from "./routes/index.mjs";
 import { router as usersRouter, initPassport } from "./routes/users.mjs";
-import { socketio as notesSocketio, router as notesRouter } from "./routes/notes.mjs";
+import {
+  socketio as notesSocketio,
+  router as notesRouter,
+} from "./routes/notes.mjs";
 
 // Workaround for lack of __dirname in ES6 modules
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -38,7 +48,7 @@ export default app;
 
 /**
  * Create HTTP server.
-*/
+ */
 const server = http.createServer(app);
 import socketio from "socket.io";
 const io = socketio(server);
@@ -54,18 +64,18 @@ io.use(
 
 /**
  * Get port from environment and store in Express.
-*/
+ */
 
-let port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+let port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
 
 /**
  * Listen on provided port, on all network interfaces.
-*/
+ */
 
 server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+server.on("error", onError);
+server.on("listening", onListening);
 
 let logStream;
 // Log to a file if requested
@@ -83,13 +93,15 @@ if (process.env.REQUEST_LOG_FILE) {
   });
 }
 
-app.use(session({ 
-  store: sessionStore, 
-  secret: sessionSecret,
-  resave: true, 
-  saveUninitialized: true,
-  name: sessionCookieName
-})); 
+app.use(
+  session({
+    store: sessionStore,
+    secret: sessionSecret,
+    resave: true,
+    saveUninitialized: true,
+    name: sessionCookieName,
+  })
+);
 initPassport(app);
 
 // view engine setup
@@ -117,10 +129,10 @@ app.use("/", indexRouter);
 app.use("/notes", notesRouter);
 app.use("/users", usersRouter);
 
-io.on('connection', function(socket){
-  debug('a user connected');
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
+io.on("connection", function (socket) {
+  debug("a user connected");
+  socket.on("disconnect", function () {
+    console.log("user disconnected");
   });
 });
 
@@ -146,7 +158,7 @@ if (app.get("env") === "development") {
       error: err,
     });
   });
-} 
+}
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -184,7 +196,7 @@ function normalizePort(val) {
 
 /**
  * Event listener for HTTP server "error" event.
-*/
+ */
 
 function onError(error) {
   if (error.syscall !== "listen") {
@@ -210,7 +222,7 @@ function onError(error) {
 
 /**
  * Event listener for HTTP server "listening" event.
-*/
+ */
 
 function onListening() {
   let addr = server.address();
