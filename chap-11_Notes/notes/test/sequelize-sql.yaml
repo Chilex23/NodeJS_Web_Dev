@@ -1,0 +1,8 @@
+dbname: notes-test
+username: postgres
+password: mysecretpassword
+params:
+  host: db-notes-test
+  port: 5432
+  dialect: postgresql
+  logging: false

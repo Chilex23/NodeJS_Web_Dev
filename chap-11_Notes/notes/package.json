@@ -1,0 +1,36 @@
+{
+  "name": "notes",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "DEBUG=notes:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize USER_SERVICE_URL=http://localhost:3333 node --experimental-modules ./app.mjs",
+    "sqlite3-setup": "sqlite3 chap-7_Notes.sqlite3 --init models/schema-sqlite3.sql",
+    "start-server1": "SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize USER_SERVICE_URL=http://localhost:3333 PORT=3001 node --experimental-modules ./bin/www.mjs",
+    "start-server2": "SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize USER_SERVICE_URL=http://localhost:3333 PORT=3002 node --experimental-modules ./bin/www.mjs",
+    "docker": "node --experimental-modules ./app",
+    "docker-build": "docker build -t node-web-development/notes ."
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "express-session": "1.15.x",
+    "feather-icons": "^4.29.0",
+    "fs-extra": "^10.1.0",
+    "hbs": "~4.0.4",
+    "http-errors": "~1.6.3",
+    "js-yaml": "3.10.x",
+    "level": "^8.0.0",
+    "mongodb": "^3.7.3",
+    "morgan": "~1.9.1",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "passport.socketio": "3.7.x",
+    "rotating-file-stream": "^3.0.4",
+    "sequelize": "4.31.x",
+    "session-file-store": "1.2.x",
+    "socket.io": "^2.5.0",
+    "sqlite3": "^5.1.1",
+    "superagent": "^3.8.3"
+  }
+}

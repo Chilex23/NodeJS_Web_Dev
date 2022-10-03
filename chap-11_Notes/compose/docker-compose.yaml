@@ -1,0 +1,64 @@
+version: '3'
+services:
+
+  db-userauth:
+    image: "postgres"
+    container_name: db-userauth
+    expose:
+      - "5433"
+    networks:
+      - authnet
+    volumes:
+      - db-userauth-data:/var/lib/postgresql
+      - ../authnet/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: userauth
+    restart: always
+
+  userauth:
+    build: ../users
+    container_name: userauth
+    depends_on:
+      - db-userauth
+    networks:
+      - authnet
+      - frontnet
+    restart: always
+
+  db-notes:
+    image: "postgres"
+    container_name: db-notes
+    expose:
+      - "5434"
+    networks:
+      - frontnet
+    volumes:
+      - db-notes-data:/var/lib/postgresql
+      - ../frontnet/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: notes
+    restart: always
+
+  notes:
+    build: ../notes
+    container_name: notes
+    depends_on:
+      - db-notes
+    networks:
+      - frontnet
+    ports:
+      - "3000:3000"
+    restart: always
+  
+
+networks:
+  frontnet:
+    driver: bridge
+  authnet:
+    driver: bridge
+
+volumes: 
+  db-userauth-data: 
+  db-notes-data: 

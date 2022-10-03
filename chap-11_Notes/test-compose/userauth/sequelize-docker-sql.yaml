@@ -1,0 +1,7 @@
+dbname: userauth-test
+username: postgres
+password: mysecretpassword
+params:
+  host: db-userauth-test
+  port: 5432
+  dialect: postgresql

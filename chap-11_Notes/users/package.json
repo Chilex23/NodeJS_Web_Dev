@@ -1,0 +1,26 @@
+{
+  "name": "usersmicroservice",
+  "version": "1.0.0",
+  "description": "user authentication microservice",
+  "main": "user-server.mjs",
+  "scripts": {
+    "start": "DEBUG=users:* PORT=3333 SEQUELIZE_CONNECT=sequelize-sqlite.yaml node --experimental-modules user-server.mjs",
+    "docker": "node --experimental-modules ./user-server.mjs",
+    "docker-build": "docker build -t node-web-development/userauth .",
+    "setupuser": "PORT=3333 node users-add"
+  },
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=8.9"
+  },
+  "dependencies": {
+    "debug": "^2.6.9",
+    "fs-extra": "^10.1.0",
+    "js-yaml": "^3.14.1",
+    "restify": "^8.6.1",
+    "restify-clients": "^1.6.0",
+    "sequelize": "^4.44.4",
+    "sqlite3": "^5.1.1"
+  }
+}
